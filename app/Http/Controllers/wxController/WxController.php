@@ -7,10 +7,10 @@ use App\Model\User\WxUserModel;
 use GuzzleHttp\Client;
 class WxController extends Controller{
 
-   /*  public function valid()
+    public function valid()
     {
         echo $_GET['echostr'];
-    } */
+    } 
     public function Wxevent()
     {
         //接收微信推送
@@ -19,5 +19,13 @@ class WxController extends Controller{
         $str=$time.$content."\n";
         file_put_contents("logs/wx_event.log",$str,FILE_APPEND);
         echo "Success";
+    }
+
+    public function accesstoken()
+    {
+        $access=Cache("access");
+        if(empty($access)){
+            $appid="";
+        }
     }
 }

@@ -17,7 +17,9 @@ Route::get('/', function () {
 
 
 //echostr
-/* Route::any('valit', 'wxController\WxController@valit'); */
+ Route::any('valit', 'wxController\WxController@valit'); 
 
 //推送
-Route::any('Wxevent', 'wxController\WxController@Wxevent');
+Route::any('valit', 'wxController\WxController@Wxevent');
+
+Route::any('accesstoken', 'wxController\WxController@accesstoken');

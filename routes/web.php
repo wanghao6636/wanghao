@@ -22,5 +22,5 @@ Route::any('valit', 'wxController\WxController@valit');
 //推送
 Route::any('valit', 'wxController\WxController@Wxevent');
 
-Route::any('accesstoken', 'wxController\WxController@accesstoken');
-Route::any('test','wxController\WxController@test');
+Route::post('accesstoken', 'wxController\WxController@accesstoken');
+//Route::any('test','wxController\WxController@test');

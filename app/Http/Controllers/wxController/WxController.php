@@ -15,13 +15,16 @@ class WxController extends Controller{
     {
         $xml_str=file_get_contents('php://input');
         $log_str=date('Y-d-m H:i:s');
-        file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
+        file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);exit;
         $xml_obj=simplexml_load_string($xml_str);
-
+        //var_dump($xml_obj);exit;
+        
         $msg_type=$xml_obj->MsgType;
         if($msg_type=='image'){
             //获取文件扩展
+            
             $url=$xml_obj->PicUrl;
+            //var_dump($url);exit;
             $response=$client->get(new Uri($url));
             $img=file_get_contents($xml_obj->PicUrl);
             $file_time=time().md_brand(11111,99999).'.jpg';
@@ -33,6 +36,40 @@ class WxController extends Controller{
             $file_name=time().md_rand(11111,99999).'.amr';
             $rr=file_put_contents('wx/voice/'.$file_name,$amr);
         }
+
+        if(strpos($xml_obj->Content,'+天气')){
+            
+        }
+
+
+
+
+
+
+
+
+
+
+        /* if($event=='subscribe'){
+            //判断用户是否存在
+            $luser=WxUserModel::where(['openid'=>$openid])->first();
+            //之前的用户关注
+            if($luser){
+                echo '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$wx_id.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. '欢迎回来 '. $local_user['nickname'] .']]></Content></xml>';
+            }else{
+                //得到用户信息
+                $niu=$this->UserInfo($openid);
+                //信息入数据库
+                $niu_fo=[
+                    'openid'=>$niu['openid'],
+                    'nickname'=>$niu['nickname'],
+                    'sex'=>$niu['sex'],
+                    'headimgur'=>$niu['headimgur'],
+                ];
+           
+            }
+        } */
+        
 
     }
     public function accesstoken()
@@ -52,4 +89,7 @@ class WxController extends Controller{
             $token=$arr['access_token'];
         }
     }
+    
+
+
 }

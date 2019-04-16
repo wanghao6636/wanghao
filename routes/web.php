@@ -17,10 +17,11 @@ Route::get('/', function () {
 
 
 //echostr
-Route::any('valit', 'wxController\WxController@valit'); 
+Route::get('valit', 'wxController\WxController@valit'); 
+Route::post('valit', 'wxController\WxController@valits'); 
 
 //推送
 Route::any('valit', 'wxController\WxController@Wxevent');
 
-Route::post('accesstoken', 'wxController\WxController@accesstoken');
+Route::get('accesstoken', 'wxController\WxController@accesstoken');
 //Route::any('test','wxController\WxController@test');

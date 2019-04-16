@@ -18,10 +18,9 @@ Route::get('/', function () {
 
 //echostr
 Route::get('valid', 'wxController\WxController@valid'); 
-Route::post('valid', 'wxController\WxController@valids'); 
 
 //推送
-Route::post('wxEvent', 'wxController\WxController@wxEvent');
+Route::post('valid', 'wxController\WxController@wxEvent');
 
 Route::get('accesstoken', 'wxController\WxController@accesstoken');
 //Route::any('test','wxController\WxController@test');

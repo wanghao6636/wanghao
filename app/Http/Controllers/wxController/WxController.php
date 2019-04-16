@@ -15,11 +15,11 @@ class WxController extends Controller{
     {
         $xml_str=file_get_contents('php://input');
         $log_str=date('Y-d-m H:i:s');
-        file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);exit;
+        file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
         $xml_obj=simplexml_load_string($xml_str);
-        //var_dump($xml_obj);exit;
+       // var_dump($xml_obj);exit;
         
-        $msg_type=$xml_obj->MsgType;
+        $msg_type=$xml_obj->MsgType;exit;
         if($msg_type=='image'){
             //获取文件扩展
             

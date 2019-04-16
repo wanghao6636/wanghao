@@ -36,9 +36,16 @@ class WxController extends Controller{
             $file_name=time().md_rand(11111,99999).'.amr';
             $rr=file_put_contents('wx/voice/'.$file_name,$amr);
         }
-
         if(strpos($xml_obj->Content,'+天气')){
-            
+            //先获取城市名
+            $city=explode('+',$xml_obj->Content)[0];
+            $url="https://free-api.heweather.net/s6/weather/now?parameters";
+            $arr=json_decode(file_get_contents($url),true);
+            $fl=$arr['HeWeather6'][0]['now'];  //是摄氏度
+            $win_dir=$arr['HeWeather6'][0]['now'][wind_dir];  //风向
+            $wind_sc=$arr['HeWeather6'][0]['now'][wind_sc];  //风力
+            $hum=$arr['HeWeather6'][0]['now']['hum'];		//湿度
+            $str="温度:".$fi."\n"."风向:".$wind_dir."\n"."风力:".$wind_sc."湿度：".$hum."\n";
         }
 
 

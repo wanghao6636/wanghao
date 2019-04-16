@@ -13,10 +13,10 @@ class WxController extends Controller{
     } 
     public function wxEvent()
     {
-        $xml_str=file_get_contents('php://input');
+        $xml_str=file_get_contents("php://input");
         $log_str=date('Y-m-d H:i:s');
         $str=$xml_str.$log_str.'\n';
-        file_put_contents('logs/wx_event.log',$str,FILE_APPEND);
+        file_put_contents("logs/wx_event.log",$str,FILE_APPEND);
         $xml_obj=simplexml_load_string($xml_str);
        // var_dump($xml_obj);exit;
         

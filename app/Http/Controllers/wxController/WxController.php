@@ -37,7 +37,9 @@ class WxController extends Controller{
             file_get_contents($url);
             $file_name=time().md_rand(11111,99999).'.amr';
             $rr=file_put_contents('wx/voice/'.$file_name,$amr);
-        }else if(strpos($xml_obj->Content,'+天气')){
+        }elseif($msg_type=='text'){
+            //自动回复
+            if(strpos($xml_obj->Content,'+天气')){
             //echo 111;exit;
             //先获取城市名
             $city=explode('+',$xml_obj->Content)[0];
@@ -71,6 +73,8 @@ class WxController extends Controller{
             <Content><![CDATA[城市名称不正确]]></Content>
             </xml>";
         }
+    }
+        
 
 
        // echo $response_xml;
@@ -106,19 +110,24 @@ class WxController extends Controller{
     public function accesstoken()
     {
         $redis_key='access_token';
+        
         $token=Redis::get($redis_key);
-        if($token){
+        
+        //if($token){
 
-        }else{
+       // }else{
             $appid="wxf45738393e3e870a";
             $secret="04c57ee962b7bf78d85050ce9d213833";
-            $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=.$appid.&secret=.$secret.";
+            $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$secret";
+            
             $json_str=file_get_contents($url);
             $arr=json_decode($json_str,true);
+            //svar_dump($arr);exit;
             Redis::get($redis_key,$arr['access_token']);
-            Redid::expire($redis_key,3600);
+            Redis::expire($redis_key,3600);
             $token=$arr['access_token'];
-        }
+            
+     //   }
     }
     
 

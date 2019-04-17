@@ -19,8 +19,9 @@ class WxController extends Controller{
         file_put_contents("logs/wx_event.log",$str,FILE_APPEND);
         $xml_obj=simplexml_load_string($xml_str);
        // var_dump($xml_obj);exit;
-        
-        $msg_type=$xml_obj->MsgType;exit;
+        $open_id=$xml_obj->FromUserName;  //open的id
+        $app=$xml_obj->ToUserName;  
+        $msg_type=$xml_obj->MsgType;
         if($msg_type=='image'){
             //获取文件扩展
             
@@ -36,21 +37,43 @@ class WxController extends Controller{
             file_get_contents($url);
             $file_name=time().md_rand(11111,99999).'.amr';
             $rr=file_put_contents('wx/voice/'.$file_name,$amr);
-        }
-        if(strpos($xml_obj->Content,'+天气')){
+        }else if(strpos($xml_obj->Content,'+天气')){
+            //echo 111;exit;
             //先获取城市名
             $city=explode('+',$xml_obj->Content)[0];
-            $url="https://free-api.heweather.net/s6/weather/now?parameters";
+            $url="https://free-api.heweather.net/s6/weather/now?location=$city&key=HE1904170859031675";
+            //var_dump($url);exit;
             $arr=json_decode(file_get_contents($url),true);
-            $fl=$arr['HeWeather6'][0]['now'];  //是摄氏度
-            $win_dir=$arr['HeWeather6'][0]['now'][wind_dir];  //风向
-            $wind_sc=$arr['HeWeather6'][0]['now'][wind_sc];  //风力
+            $fl=$arr['HeWeather6'][0]['now']['fl'];  //是摄氏度
+            $win_dir=$arr['HeWeather6'][0]['now']['wind_dir'];  //风向
+            $wind_sc=$arr['HeWeather6'][0]['now']['wind_sc'];  //风力
             $hum=$arr['HeWeather6'][0]['now']['hum'];		//湿度
-            $str="温度:".$fi."\n"."风向:".$wind_dir."\n"."风力:".$wind_sc."湿度：".$hum."\n";
+            $data='温度:'.$fl."\n".'风向:'.$win_dir."\n".'风力:'.$wind_sc."\n".'湿度:'.$hum."\n"; 
+            $time=time();
+            $response_xml=
+            "<xml>
+            <ToUserName><![CDATA['.$open_id.']]></ToUserName>
+            <FromUserName><![CDATA['.$app.']]></FromUserName>
+            <CreateTime>'.$time.'</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA['.$data.']]></Content>
+            </xml>";
+            //var_dump($response_xml);exit;
+            
+       
+        }else{
+            $response_xml=
+            "<xml>
+            <ToUserName><![CDATA['.$open_id.']]></ToUserName>
+            <FromUserName><![CDATA['.$app.']]></FromUserName>
+            <CreateTime>'.$time.'</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[城市名称不正确]]></Content>
+            </xml>";
         }
 
 
-
+       // echo $response_xml;
 
 
 

@@ -24,3 +24,7 @@ Route::post('valid', 'wxController\WxController@wxEvent');
 
 Route::get('accesstoken', 'wxController\WxController@accesstoken');
 //Route::any('test','wxController\WxController@test');
+//微信支付测试
+Route::get('test', 'wxController\WxPayController@test');
+//notify
+Route::get('notify', 'wxController\WxPayController@notify');

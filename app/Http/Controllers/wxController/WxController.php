@@ -113,9 +113,9 @@ class WxController extends Controller{
         
         $token=Redis::get($redis_key);
         
-        //if($token){
+        if($token){
 
-       // }else{
+        }else{
             $appid="wxf45738393e3e870a";
             $secret="04c57ee962b7bf78d85050ce9d213833";
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$secret";
@@ -127,7 +127,8 @@ class WxController extends Controller{
             Redis::expire($redis_key,3600);
             $token=$arr['access_token'];
             
-     //   }
+       }
+       return $token;
     }
     
 
